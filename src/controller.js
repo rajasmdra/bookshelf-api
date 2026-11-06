@@ -69,3 +69,20 @@ export const getBooks = (req, res) => {
         },
     });
 };
+
+export const getBookDetail = (req, res) => {
+    const { id } = req.params;
+    const book = books.find((b) => b.id === id);
+
+    if (book) {
+        return res.json({
+            status: 'success',
+            data: {book}
+        });
+    }
+
+    return res.status(404).json({
+        status: 'fail',
+        message: 'Buku tidak ditemukan'
+    });
+};
