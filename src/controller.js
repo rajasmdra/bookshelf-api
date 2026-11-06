@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import books from "./books";
+import books from "./books.js";
 
 export const addBook = (req, res, next) => {
     const { name, year, author, summary, publisher, pageCount, readPage, reading } = req.body;
@@ -14,7 +14,7 @@ export const addBook = (req, res, next) => {
     if (readPage > pageCount) {
         return res.status(400).json({
             status: 'fail',
-            message: 'Gagal menambahkan buku. readpage tidak boleh lebih besar dari pageCount'
+            message: 'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount'
         });
     }
     
@@ -52,5 +52,20 @@ export const addBook = (req, res, next) => {
     return res.status(500).json({
         status: 'fail',
         message: 'Gagal menambahkan buku'
+    });
+};
+
+export const getBooks = (req, res) => {
+    const filteredBooks = books.map((book) => ({
+        id: book.id,
+        name: book.name,
+        publisher: book.publisher,
+    }));
+
+    return res.status(200).json({
+        status: 'success',
+        data: {
+            books: filteredBooks,
+        },
     });
 };
